@@ -1,6 +1,0 @@
-#include <stdio.h>
-
-int main() {
-    // HU-00: Entorno listo, main vacío
-    return 0;
-}
