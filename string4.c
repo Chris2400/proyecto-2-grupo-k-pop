@@ -1,16 +1,6 @@
 #include <stdio.h>
 
 // ==========================================
-// SPRINT 1 y 2: ESTRUCTURAS
-// ==========================================
-typedef struct {
-    char nombre[30];
-    int bonus;
-    int vigencia;
-} Cancion;
-
-typedef struct {
-    char nombre[30];
     int popularidad;
     int energia;
     int energia_max;
