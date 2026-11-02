@@ -1,0 +1,82 @@
+#include <stdio.h>
+
+typedef struct {
+    char nombre[30];
+    int popularidad;
+    int energia;
+    int energia_max;
+    int fans;
+} Idol;
+
+int limitar(int valor, int minimo, int maximo) {
+    if (valor < minimo) return minimo;
+    if (valor > maximo) return maximo;
+    return valor;
+}
+
+void mostrar(const Idol *i) {
+    if (i == NULL) return;
+    printf("Nombre: %s\nPopularidad: %d\nEnergia: %d/%d\nFans: %d\n", 
+           i->nombre, i->popularidad, i->energia, i->energia_max, i->fans);
+}
+
+void ensayar(Idol *i) {
+    if (i == NULL) return;
+    i->popularidad += 5;
+    i->energia = limitar(i->energia - 20, 0, i->energia_max);
+}
+
+void descansar(Idol *i) {
+    if (i == NULL) return;
+    i->energia = limitar(i->energia + 30, 0, i->energia_max);
+}
+
+// HU-07: Esta activa
+int esta_activa(const Idol *i) {
+    if (i == NULL) return 0;
+    return i->energia > 0 ? 1 : 0;
+}
+
+int main() {
+    Idol jennie = {"jennie", 50, 100, 100, 12000};
+    Idol *p = &jennie;
+    
+    printf("Con punto: %d\n", jennie.fans);
+    printf("Con desreferencia: %d\n", (*p).fans);
+    printf("Con flecha: %d\n", p->fans);
+    printf("Direccion en p: %p\n", (void *)p);
+    printf("Direccion de jennie: %p\n", (void *)&jennie);
+    
+    mostrar(&jennie);
+    
+    printf("\n--- Prueba de limitar ---\n");
+    printf("limitar(-5, 0, 100) = %d\n", limitar(-5, 0, 100));
+    printf("limitar(150, 0, 100) = %d\n", limitar(150, 0, 100));
+    printf("limitar(40, 0, 100) = %d\n", limitar(40, 0, 100));
+    
+    printf("\n--- HU-05: Ensayar ---\n");
+    ensayar(&jennie);
+    mostrar(&jennie);
+    for (int k = 0; k < 20; k++) ensayar(&jennie);
+    printf("Energia despues de 20 ensayos: %d\n", jennie.energia);
+    
+    printf("\n--- HU-06: Descansar ---\n");
+    descansar(&jennie);
+    mostrar(&jennie);
+    for (int k = 0; k < 20; k++) descansar(&jennie);
+    printf("Energia despues de 20 descansos: %d\n", jennie.energia);
+    
+    // HU-07: Prueba de esta_activa
+    printf("\n--- HU-07: Esta activa ---\n");
+    printf("¿Jennie esta activa? (energia=%d): %d\n", jennie.energia, esta_activa(&jennie));
+    
+    // Forzamos energía a 0 para probar
+    jennie.energia = 0;
+    printf("¿Jennie esta activa? (energia=0): %d\n", esta_activa(&jennie));
+    
+    // Forzamos energía a 1 para probar
+    jennie.energia = 1;
+    printf("¿Jennie esta activa? (energia=1): %d\n", esta_activa(&jennie));
+    
+    return 0;
+}
